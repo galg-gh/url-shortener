@@ -7,6 +7,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import validator from 'validator'; // Import the validator library
 
+
 // MongoDB setup
 mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
