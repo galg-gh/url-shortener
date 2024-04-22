@@ -6,8 +6,10 @@ services:
     image: app_frontend:1.0
     ports:
       - "3000:3000"
-
-  back:
+    environment:
+      - API_URL = http://localhost:3001/shorten
+      
+  server:
     image: app_backend:1.0
     ports:
       - "3001:3001"
