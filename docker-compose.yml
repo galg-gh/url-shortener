@@ -11,6 +11,10 @@ services:
     image: app_backend:1.0
     ports:
       - "3001:3001"
+    environment:
+      - SERVER_URL = http://127.0.0.1:3001
+      - MONGODB_URL = mongodb://mongo:27017/urlShortener
+      - SERVER_PORT = 3001
 
   mongo:
     image: mongo
