@@ -6,10 +6,10 @@ import { nanoid } from 'nanoid';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import validator from 'validator'; // Import the validator library
-import { SERVER_URL, MONGODB_URL, SERVER_PORT } from './config.js';
+
 
 // MongoDB setup
-mongoose.connect(MONGODB_URL, {
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -41,7 +41,7 @@ app.post('/shorten', async (req, res) => {
   // Check if the URL already exists in the database
   let url = await Url.findOne({ originalUrl });
   if (url) {
-    return res.json({ shortenedUrl: `${SERVER_URL}/${url.shortenedId}` });
+    return res.json({ shortenedUrl: `${process.env.SERVER_URL}/${url.shortenedId}` });
   }
 
   let shortenedId;
@@ -58,7 +58,7 @@ app.post('/shorten', async (req, res) => {
 
   try {
     await url.save();
-    res.json({ shortenedUrl: `${SERVER_URL}/${shortenedId}` });
+    res.json({ shortenedUrl: `${process.env.SERVER_URL}/${shortenedId}` });
   } catch (err) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -77,7 +77,7 @@ app.get('/:shortenedId', async (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || SERVER_PORT; // Use a different port for backend
+const PORT = process.env.SERVER_PORT; // Use a different port for backend
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -1,5 +1,3 @@
-// App.js
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -96,7 +94,7 @@ const App = () => {
 
   const handleShortenUrl = async () => {
     try {
-      const response = await fetch('http://localhost:3001/shorten', {
+      const response = await fetch(process.env.REACT_APP_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
