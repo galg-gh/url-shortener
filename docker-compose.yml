@@ -5,6 +5,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - PORT=3000
       - REACT_APP_API_URL=http://127.0.0.1:3001/shorten
       
   server:
