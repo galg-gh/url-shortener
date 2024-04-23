@@ -37,5 +37,8 @@
   },
   "devDependencies": {
     "esm": "^3.2.25"
+  },
+  "overrides": {
+    "nth-check": "2.0.1"
   }
 }
