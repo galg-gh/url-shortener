@@ -11,13 +11,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v4
-      with:
-        images: name/app
-        tags: |
-          type=raw,value={{date +%y.%m.%d}}
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%y.%m.%d')"
 
     - name: Login to Docker Hub 
       uses: docker/login-action@v3
@@ -33,12 +29,12 @@ jobs:
       with:
         context: frontend/.
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_frontend:${{ steps.meta.outputs.tags }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_frontend:${{ steps.date.outputs.date }}
 
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
         context: backend/.
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_backend:${{ steps.meta.outputs.tags }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_backend:${{ steps.date.outputs.date }}
         
