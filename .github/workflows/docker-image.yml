@@ -15,6 +15,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
+        images: name/app
         tags: |
           type=raw,value={{date +%y.%m.%d}}
 
