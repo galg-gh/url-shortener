@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-shortener-web-deployment
+  labels:
+    app: url-shortener-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: url-shortener-web
+  template:
+    metadata:
+      labels:
+        app: url-shortener-web
+    spec:
+      containers:
+      - name: web
+        image: galgg/app_frontend:24.04.23
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
+        - name: REACT_APP_API_URL
+          value: "http://127.0.0.1:80/shorten"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-shortener-server-deployment
+  labels:
+    app: url-shortener-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: url-shortener-server
+  template:
+    metadata:
+      labels:
+        app: url-shortener-server
+    spec:
+      containers:
+      - name: server
+        image: galgg/app_backend:24.04.23
+        ports:
+        - containerPort: 80
+        env: 
+        - name: SERVER_URL
+          value: "http://127.0.0.1"
+        - name: SERVER_PORT
+          value: "80"
+        - name: MONGODB_URL
+          value: "mongodb://db.default.svc.cluster.local:27017/urlShortener"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-shortener-db-deployment
+  labels:
+    app: url-shortener-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: url-shortener-db
+  template:
+    metadata:
+      labels:
+        app: url-shortener-db
+    spec:
+      containers:
+      - name: db
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
