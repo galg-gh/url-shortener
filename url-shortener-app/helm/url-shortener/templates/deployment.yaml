@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "url-shortener.fullname" . }}-web-deployment
+  labels:
+    app: url-shortener-web
+  {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.urlShortenerWebDeployment.replicas }}
+  selector:
+    matchLabels:
+      app: url-shortener-web
+    {{- include "url-shortener.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: url-shortener-web
+      {{- include "url-shortener.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: {{ quote .Values.urlShortenerWebDeployment.web.env.port }}
+        - name: REACT_APP_API_URL
+          value: {{ quote .Values.urlShortenerWebDeployment.web.env.reactAppApiUrl }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.urlShortenerWebDeployment.web.image.repository }}:{{ .Values.urlShortenerWebDeployment.web.image.tag
+          | default .Chart.AppVersion }}
+        name: web
+        ports:
+        - containerPort: 80
+        resources: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "url-shortener.fullname" . }}-server-deployment
+  labels:
+    app: url-shortener-server
+  {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.urlShortenerServerDeployment.replicas }}
+  selector:
+    matchLabels:
+      app: url-shortener-server
+    {{- include "url-shortener.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: url-shortener-server
+      {{- include "url-shortener.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: SERVER_URL
+          value: {{ quote .Values.urlShortenerServerDeployment.server.env.serverUrl }}
+        - name: SERVER_PORT
+          value: {{ quote .Values.urlShortenerServerDeployment.server.env.serverPort }}
+        - name: MONGODB_URL
+          value: {{ quote .Values.urlShortenerServerDeployment.server.env.mongodbUrl }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.urlShortenerServerDeployment.server.image.repository }}:{{ .Values.urlShortenerServerDeployment.server.image.tag
+          | default .Chart.AppVersion }}
+        name: server
+        ports:
+        - containerPort: 80
+        resources: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "url-shortener.fullname" . }}-db-deployment
+  labels:
+    app: url-shortener-db
+  {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.urlShortenerDbDeployment.replicas }}
+  selector:
+    matchLabels:
+      app: url-shortener-db
+    {{- include "url-shortener.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: url-shortener-db
+      {{- include "url-shortener.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.urlShortenerDbDeployment.db.image.repository }}:{{ .Values.urlShortenerDbDeployment.db.image.tag
+          | default .Chart.AppVersion }}
+        name: db
+        ports:
+        - containerPort: 27017
+        resources: {}

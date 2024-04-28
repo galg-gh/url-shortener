@@ -11,6 +11,7 @@
 /backend/node_modules/
 
 Steps.md
+docker-compose.yml
 # testing
 /coverage
 

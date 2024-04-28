@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "url-shortener.fullname" . }}-frontend
+  labels:
+  {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.frontend.type }}
+  selector:
+    app: url-shortener-web
+  {{- include "url-shortener.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.frontend.ports | toYaml | nindent 2 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "url-shortener.fullname" . }}-backend
+  labels:
+  {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.backend.type }}
+  selector:
+    app: url-shortener-server
+  {{- include "url-shortener.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.backend.ports | toYaml | nindent 2 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "url-shortener.fullname" . }}-db
+  labels:
+  {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.db.type }}
+  selector:
+    app: url-shortener-db
+  {{- include "url-shortener.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.db.ports | toYaml | nindent 2 }}
