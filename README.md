@@ -4,10 +4,10 @@ Written using React, NodeJS, Express, and MongoDB
 
 Using Docker and GitHub Actions.
 
+Using Helm for the Kubernetes Cluster Declaration, chart templating 
+
 Goals:
 
 Using Terraform to provision the Kubernetes Infrastructure
-
-Using Helm for the Kubernetes Cluster Declaration, chart templating 
 
 Using ArgoCD and GitOps
