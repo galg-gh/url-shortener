@@ -1,41 +1,41 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "url-shortener.fullname" . }}-frontend
+  name: {{ include "url-shortener.name" . }}-web
   labels:
   {{- include "url-shortener.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.frontend.type }}
+  type: {{ .Values.web.type }}
   selector:
-    app: url-shortener-web
-  {{- include "url-shortener.selectorLabels" . | nindent 4 }}
+    app: {{ include "url-shortener.name" . }}-web
   ports:
-	{{- .Values.frontend.ports | toYaml | nindent 2 }}
+  - port: {{ .Values.web.ports.servicePort }}
+    targetPort: {{ .Values.web.ports.containerPort }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "url-shortener.fullname" . }}-backend
+  name: {{ include "url-shortener.name" . }}-server
   labels:
   {{- include "url-shortener.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.backend.type }}
+  type: {{ .Values.server.type }}
   selector:
-    app: url-shortener-server
-  {{- include "url-shortener.selectorLabels" . | nindent 4 }}
+    app: {{ include "url-shortener.name" . }}-server
   ports:
-	{{- .Values.backend.ports | toYaml | nindent 2 }}
+  - port: {{ .Values.server.ports.servicePort }}
+    targetPort: {{ .Values.server.ports.containerPort }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "url-shortener.fullname" . }}-db
+  name: {{ include "url-shortener.name" . }}-db
   labels:
   {{- include "url-shortener.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.db.type }}
   selector:
-    app: url-shortener-db
-  {{- include "url-shortener.selectorLabels" . | nindent 4 }}
+    app: {{ include "url-shortener.name" . }}-db
   ports:
-	{{- .Values.db.ports | toYaml | nindent 2 }}
+  - port: {{ .Values.db.ports.servicePort }}
+    targetPort: {{ .Values.db.ports.containerPort }}

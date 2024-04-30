@@ -1,44 +1,39 @@
-backend:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
+web:
+  replicas: 1
   type: ClusterIP
+  image:
+    repository: galgg/app_frontend
+    tag: 24.04.23
+  ports:
+    servicePort: 80
+    containerPort: 80
+  env:
+    serverPort: "80"
+    apiURL: http://127.0.0.1:80/shorten
+
+server:
+  replicas: 1
+  type: ClusterIP
+  image:
+    repository: galgg/app_backend
+    tag: 24.04.23
+  ports:
+    servicePort: 80
+    containerPort: 80
+  env:
+    dbURL: mongodb://db.default.svc.cluster.local:27017/urlShortener
+    serverPort: "80"
+    serverURL: http://127.0.0.1
+
 db:
-  ports:
-  - port: 27017
-    protocol: TCP
-    targetPort: 27017
+  replicas: 1
   type: ClusterIP
-frontend:
+  image:
+    repository: mongo
+    tag: latest
   ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-  type: ClusterIP
+    servicePort: 27017
+    containerPort: 27017
+    
 kubernetesClusterDomain: cluster.local
-urlShortenerDbDeployment:
-  db:
-    image:
-      repository: mongo
-      tag: latest
-  replicas: 1
-urlShortenerServerDeployment:
-  replicas: 1
-  server:
-    env:
-      mongodbUrl: mongodb://db.default.svc.cluster.local:27017/urlShortener
-      serverPort: "80"
-      serverUrl: http://127.0.0.1
-    image:
-      repository: galgg/app_backend
-      tag: 24.04.23
-urlShortenerWebDeployment:
-  replicas: 1
-  web:
-    env:
-      port: "80"
-      reactAppApiUrl: http://127.0.0.1:80/shorten
-    image:
-      repository: galgg/app_frontend
-      tag: 24.04.23
+

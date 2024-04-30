@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "url-shortener.fullname" . }}-ingress
+  name: {{ include "url-shortener.name" . }}-ingress
   labels:
   {{- include "url-shortener.labels" . | nindent 4 }}
   annotations:
@@ -12,26 +12,26 @@ spec:
       paths:
       - backend:
           service:
-            name: '{{ include "url-shortener.fullname" . }}-frontend'
+            name: '{{ include "url-shortener.name" . }}-web'
             port:
-              number: 80
+              number: {{ .Values.web.ports.servicePort }}
         path: /
         pathType: Prefix
   - http:
       paths:
       - backend:
           service:
-            name: '{{ include "url-shortener.fullname" . }}-backend'
+            name: '{{ include "url-shortener.name" . }}-server'
             port:
-              number: 80
+              number: {{ .Values.server.ports.servicePort }}
         path: /shorten
         pathType: Prefix
   - http:
       paths:
       - backend:
           service:
-            name: '{{ include "url-shortener.fullname" . }}-backend'
+            name: '{{ include "url-shortener.name" . }}-server'
             port:
-              number: 80
+              number: {{ .Values.server.ports.servicePort }}
         path: /[A-Za-z0-9_-]{6}$
         pathType: ImplementationSpecific
