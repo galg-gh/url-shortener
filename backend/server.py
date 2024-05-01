@@ -7,7 +7,6 @@ from nanoid import generate
 import validators
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
 
 # MongoDB setup
 mongodb_url = os.environ.get('MONGODB_URL')
