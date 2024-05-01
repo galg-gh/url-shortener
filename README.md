@@ -12,4 +12,4 @@ Goals:
 
 Using Terraform for AKS and EKS deployments
 
-Add Helm Charts support for ArgoCD
+Add Helm Chart support for ArgoCD
