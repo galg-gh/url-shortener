@@ -1,10 +1,8 @@
 import os
 from flask import Flask, request, jsonify, redirect
-from flask_cors import CORS
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from nanoid import generate
-import validators
 
 app = Flask(__name__)
 

@@ -23,7 +23,7 @@ server:
   env:
     dbURL: mongodb://db.default.svc.cluster.local:27017/urlShortener
     serverPort: "80"
-    serverURL: "127.0.0.1"
+    serverURL: "0.0.0.0"
 
 db:
   replicas: 1

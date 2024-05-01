@@ -48,7 +48,7 @@ spec:
         - containerPort: 80
         env: 
         - name: SERVER_URL
-          value: "127.0.0.1"
+          value: "0.0.0.0"
         - name: SERVER_PORT
           value: "80"
         - name: MONGODB_URL
