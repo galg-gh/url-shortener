@@ -1,6 +1,6 @@
 URL Shortener app
 
-Written using React, NodeJS, Express, and MongoDB
+Written using React, Flask, and MongoDB
 
 Using Docker and GitHub Actions.
 
