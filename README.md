@@ -8,6 +8,6 @@ Using Helm for the Kubernetes Cluster Declaration, chart templating
 
 Goals:
 
-Using Terraform to provision the Kubernetes Infrastructure
+Using Terraform for AKS and EKS deployments
 
 Using ArgoCD and GitOps
