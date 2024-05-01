@@ -1,10 +1,19 @@
-FROM node:21-alpine
+FROM python:3.11-slim
 
-WORKDIR /backend
+RUN apt-get clean \
+    && apt-get -y update
 
-COPY index.js /backend/
-COPY package.json /backend/
+RUN apt-get -y install \
+    nginx \
+    python3-dev \
+    build-essential
 
-RUN npm install
+WORKDIR /app
 
-CMD ["npm", "start"]
+COPY requirements.txt .
+
+COPY server.py .
+
+RUN pip install -r requirements.txt --src /usr/local/src
+
+CMD ["python3", "server.py"]

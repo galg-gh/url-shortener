@@ -1,0 +1,6 @@
+flask
+requests
+pymongo
+validators
+flask_cors
+nanoid
