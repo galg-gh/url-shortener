@@ -1,20 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-
-provider "aws" {
-  region = "eu-central-1"
-}
-
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   version = "4.0.0"
@@ -31,20 +14,6 @@ module "vpc" {
   enable_vpn_gateway = false
 
 }
-
-locals {
-  vpc_id              = module.vpc.vpc_id
-  vpc_cidr            = module.vpc.vpc_cidr_block
-  public_subnets_ids  = module.vpc.public_subnets
-  private_subnets_ids = module.vpc.private_subnets
-  subnets_ids         = concat(local.public_subnets_ids, local.private_subnets_ids)
-}
-
-
-
-################
-#  EKS MODULE  #
-################
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -93,13 +62,6 @@ module "eks" {
   }
 
 }
-
-
-
-
-################################
-#  ROLES FOR SERVICE ACCOUNTS  #
-################################
 
 module "vpc_cni_irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
