@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: ingress
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    kubernetes.io/ingress.class: alb
 spec:
   rules:
   - http:
@@ -26,7 +26,7 @@ spec:
               number: 80
   - http:
       paths:
-      - path: /[A-Za-z0-9_-]{6}$
+      - path: /??????
         pathType: ImplementationSpecific
         backend:
           service:

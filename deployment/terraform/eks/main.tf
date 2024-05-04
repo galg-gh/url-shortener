@@ -9,6 +9,14 @@ module "vpc" {
   private_subnets = ["10.0.0.0/22", "10.0.4.0/22", "10.0.8.0/22"]
   public_subnets  = ["10.0.100.0/22", "10.0.104.0/22", "10.0.108.0/22"]
 
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = 1
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = 1
+  }
+
   enable_nat_gateway = true
   single_nat_gateway = true
   enable_vpn_gateway = false
@@ -49,17 +57,18 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     ami_type                   = "AL2_x86_64"
-    instance_types             = ["t2.micro"]
+    instance_types             = ["t2.small"]
     iam_role_attach_cni_policy = true
   }
 
   eks_managed_node_groups = {
     stw_node_wg = {
-      min_size     = 2
-      max_size     = 2
-      desired_size = 2
+      min_size     = 1
+      max_size     = 1
+      desired_size = 1
     }
   }
+
 
 }
 
@@ -78,4 +87,7 @@ module "vpc_cni_irsa" {
     }
   }
 }
+
+
+
 

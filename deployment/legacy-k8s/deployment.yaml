@@ -23,7 +23,7 @@ spec:
         - name: PORT
           value: "80"
         - name: REACT_APP_API_URL
-          value: "http://127.0.0.1:80/shorten"
+          value: "http://127.0.0.1/shorten"
 ---
 apiVersion: apps/v1
 kind: Deployment
