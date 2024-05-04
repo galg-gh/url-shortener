@@ -47,6 +47,10 @@ def redirect_url(shortened_id):
     else:
         return 'URL not found', 404
 
+# Health Check
+@app.route('/')
+def health_check():
+     return 'Server status code 200', 200
 
 # Start the server
 if __name__ == '__main__':
