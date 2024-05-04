@@ -4,11 +4,31 @@ metadata:
   name: ingress
   annotations:
     kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:
   - http:
       paths:
       - path: /
+        pathType: Exact
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+  - http:
+      paths:
+      - path: /ws
+        pathType: Exact
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+  - http:
+      paths:
+      - path: /static/
         pathType: Prefix
         backend:
           service:
@@ -18,7 +38,7 @@ spec:
   - http:
       paths:
       - path: /shorten
-        pathType: Prefix
+        pathType: Exact
         backend:
           service:
             name: backend
