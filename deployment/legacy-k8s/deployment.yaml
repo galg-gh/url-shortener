@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: galgg/app_frontend:24.05.01
+        image: galgg/app_frontend:24.05.04
         ports:
         - containerPort: 80
         env:
@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: galgg/app_backend:24.05.01
+        image: galgg/app_backend:24.05.04
         ports:
         - containerPort: 80
         env: 
