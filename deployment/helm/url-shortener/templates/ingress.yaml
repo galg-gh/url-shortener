@@ -5,33 +5,53 @@ metadata:
   labels:
   {{- include "url-shortener.labels" . | nindent 4 }}
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:
   - http:
       paths:
-      - backend:
+      - path: /
+        pathType: Exact
+        backend:
           service:
             name: '{{ include "url-shortener.name" . }}-web'
             port:
               number: {{ .Values.web.ports.servicePort }}
-        path: /
-        pathType: Prefix
   - http:
       paths:
-      - backend:
+      - path: /ws
+        pathType: Exact
+        backend:
+          service:
+            name: '{{ include "url-shortener.name" . }}-web'
+            port:
+              number: {{ .Values.web.ports.servicePort }}
+  - http:
+      paths:
+      - path: /static/
+        pathType: Prefix
+        backend:
+          service:
+            name: '{{ include "url-shortener.name" . }}-web'
+            port:
+              number: {{ .Values.web.ports.servicePort }}
+  - http:
+      paths:
+      - path: /shorten
+        pathType: Exact
+        backend:
           service:
             name: '{{ include "url-shortener.name" . }}-server'
             port:
               number: {{ .Values.server.ports.servicePort }}
-        path: /shorten
-        pathType: Prefix
   - http:
       paths:
-      - backend:
-          service:
-            name: '{{ include "url-shortener.name" . }}-server'
-            port:
-              number: {{ .Values.server.ports.servicePort }}
-        path: /[A-Za-z0-9_-]{6}$
+      - path: /??????
         pathType: ImplementationSpecific
+        backend:
+          service:
+            name: '{{ include "url-shortener.name" . }}-server'
+            port:
+              number: {{ .Values.server.ports.servicePort }}
