@@ -36,4 +36,3 @@ jobs:
         context: ./app/backend/.
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_backend:${{ steps.date.outputs.date }}
-        
