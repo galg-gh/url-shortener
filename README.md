@@ -10,7 +10,7 @@ CD: ArgoCD
 
 Cluster: Helm, Kubernetes
 
-Infrastructure: Terraform and EKS
+Infrastructure: Terraform with EKS
 
 
 
