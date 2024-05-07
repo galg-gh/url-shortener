@@ -60,4 +60,4 @@ metadata:
   name: alb-ingress-controller
   namespace: kube-system
   annotations:
-    eks.amazonaws.com/role-arn: <ARN OF YOUR ROLE HERE>
+    eks.amazonaws.com/role-arn: {{ .Values.alb.arn }}
