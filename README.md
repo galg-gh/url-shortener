@@ -1,5 +1,5 @@
-<p align="center">
-    <img src="https://github.com/galg-gh/url-shortener/assets/91409344/c594f04d-c4dc-4685-ba57-5e2e2fb75aa6" /></p>
+![image](https://github.com/galg-gh/url-shortener/assets/91409344/8fcd6df7-9a38-4db3-bbe4-87d90036c1f3)
+
 
 # URL Shortener
 
