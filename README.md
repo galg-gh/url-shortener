@@ -7,6 +7,6 @@
 - **App:** React, Flask, MongoDB
 - **CI:** GitHub Actions
 - **CD:** ArgoCD
-- **Cluster (Declarative):** Helm, Kubernetes
+- **Cluster:** Helm, Kubernetes
 - **Infrastructure:** Terraform with EKS
 
