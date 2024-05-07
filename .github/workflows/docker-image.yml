@@ -26,14 +26,14 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: frontend/.
+        context: ./app/frontend/.
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_frontend:${{ steps.date.outputs.date }}
 
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: backend/.
+        context: ./app/backend/.
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_backend:${{ steps.date.outputs.date }}
         
