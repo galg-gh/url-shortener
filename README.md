@@ -4,9 +4,9 @@ Tech Stack:
 
 App: React, Flask, MongoDB
 
-CI Pipeline: GitHub Actions
+CI: GitHub Actions
 
-CD Pipeline: ArgoCD
+CD: ArgoCD
 
 Cluster: Helm, Kubernetes
 
