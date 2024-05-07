@@ -1,16 +1,12 @@
 # URL Shortener App & Deployment
 
-Tech Stack:
+## Tech Stack
 
-App: React, Flask, MongoDB
-
-CI: GitHub Actions
-
-CD: ArgoCD
-
-Cluster: Helm, Kubernetes
-
-Infrastructure: Terraform with EKS
+- **App:** React, Flask, MongoDB
+- **CI:** GitHub Actions
+- **CD:** ArgoCD
+- **Cluster:** Helm, Kubernetes
+- **Infrastructure:** Terraform with EKS
 
 
 <p align="center">
