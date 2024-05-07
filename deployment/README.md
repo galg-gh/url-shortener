@@ -1,4 +1,4 @@
-ALB will also need to be installed in the EKS cluster:
+ALB will also need to be installed in the cluster:
 
 ```
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
