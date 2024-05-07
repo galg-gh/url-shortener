@@ -4,8 +4,6 @@
 
 # URL Shortener
 
-## Tech Stack
-
 - **App:** React, Flask, MongoDB
 - **CI:** GitHub Actions
 - **CD:** ArgoCD
