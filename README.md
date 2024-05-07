@@ -1,12 +1,16 @@
 URL Shortener app
 
-Written using React, Flask, and MongoDB
+Tech Stack:
 
-Using Docker and GitHub Actions.
+App: React, Flask, MongoDB
 
-Using Helm for the Kubernetes Cluster Declaration, chart templating
+CI Pipeline: GitHub Actions
 
-Deployments (helm/legacy-k8s) are declarative and supported by ArgoCD
+CD Pipeline: ArgoCD
 
-Using Terraform for EKS deployment
+Cluster: Helm, Kubernetes
+
+Infrastructure: Terraform and EKS
+
+
 
