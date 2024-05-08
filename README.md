@@ -10,5 +10,6 @@
 - **Cluster:** Kubernetes, Helm
 - **Infrastructure:** Terraform with EKS
 
-![image](https://github.com/galg-gh/url-shortener/assets/91409344/e86a9bb0-bc5a-4696-ad38-d2361a96332d)
+![image](https://github.com/galg-gh/url-shortener/assets/91409344/94250898-1f47-408d-8d48-b9ddf9e517bc)
+
 
