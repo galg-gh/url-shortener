@@ -6,7 +6,7 @@ metadata:
 spec:
   source:
     repoURL: git@github.com:galg-gh/url-shortener.git
-    path: deployment/helm/
+    path: ./deployment/helm/url-shortener/
   destination:
     server: https://kubernetes.default.svc
     namespace: staging
