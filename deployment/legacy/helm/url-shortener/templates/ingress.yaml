@@ -46,7 +46,7 @@ spec:
               number: {{ .Values.server.ports.servicePort }}
   - http:
       paths:
-      - path: /[A-Za-z0-9_-]{6}$
+      - path: /[A-Za-z0-9_-]{6}
         pathType: ImplementationSpecific
         backend:
           service:

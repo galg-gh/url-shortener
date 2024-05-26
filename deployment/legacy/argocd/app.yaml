@@ -9,7 +9,7 @@ spec:
     path: ./deployment/legacy/helm/url-shortener/
   destination:
     server: https://kubernetes.default.svc
-    namespace: staging
+    namespace: url-app
   project: default
   syncPolicy:
     automated:
