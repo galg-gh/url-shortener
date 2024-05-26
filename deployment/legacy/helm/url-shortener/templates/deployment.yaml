@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "url-shortener.name" . }}-web-deployment
+  labels:
+    app: {{ include "url-shortener.name" . }}-web
+      {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.web.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "url-shortener.name" . }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ include "url-shortener.name" . }}-web
+    spec:
+      containers:
+      - name: web
+        image: {{ .Values.web.image.repository }}:{{ .Values.web.image.tag }} # Will be replaced with  {{ .Chart.AppVersion }}
+        ports:
+        - containerPort: {{ .Values.web.ports.containerPort }}
+        env:
+        - name: PORT
+          value: {{ quote .Values.web.env.serverPort }}
+        - name: REACT_APP_API_URL
+          value: {{ quote .Values.web.env.apiURL }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "url-shortener.name" . }}-server-deployment
+  labels:
+    app: {{ include "url-shortener.name" . }}-server
+      {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.server.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "url-shortener.name" . }}-server
+  template:
+    metadata:
+      labels:
+        app: {{ include "url-shortener.name" . }}-server
+    spec:
+      containers:
+      - name: server
+        image: {{ .Values.server.image.repository }}:{{ .Values.server.image.tag }} # Will be replaced with {{ .Chart.AppVersion }}
+        ports:
+        - containerPort: {{ .Values.server.ports.containerPort }}
+        env:
+        - name: SERVER_URL
+          value: {{ quote .Values.server.env.serverURL }}
+        - name: SERVER_PORT
+          value: {{ quote .Values.server.env.serverPort }}
+        - name: MONGODB_URL
+          value: {{ quote .Values.server.env.dbURL }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "url-shortener.name" . }}-db-deployment
+  labels:
+    app: {{ include "url-shortener.name" . }}-db
+  {{- include "url-shortener.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.db.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "url-shortener.name" . }}-db
+  template:
+    metadata:
+      labels:
+        app: {{ include "url-shortener.name" . }}-db
+    spec:
+      containers:
+      - name: db
+        image: {{ .Values.db.image.repository }}:{{ .Values.db.image.tag }} # Will be replaced with {{ .Chart.AppVersion }}
+        ports:
+        - containerPort: {{ .Values.db.ports.containerPort }}
+        env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
