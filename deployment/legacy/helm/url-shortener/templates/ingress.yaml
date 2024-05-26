@@ -5,7 +5,7 @@ metadata:
   labels:
   {{- include "url-shortener.labels" . | nindent 4 }}
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    ingress.kubernetes.io/rewrite-target: /
     
 spec:
   ingressClassName: nginx
