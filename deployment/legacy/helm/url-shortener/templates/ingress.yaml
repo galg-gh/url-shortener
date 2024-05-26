@@ -11,24 +11,6 @@ spec:
   - http:
       paths:
       - path: /
-        pathType: Exact
-        backend:
-          service:
-            name: '{{ include "url-shortener.name" . }}-web'
-            port:
-              number: {{ .Values.web.ports.servicePort }}
-  - http:
-      paths:
-      - path: /ws
-        pathType: Exact
-        backend:
-          service:
-            name: '{{ include "url-shortener.name" . }}-web'
-            port:
-              number: {{ .Values.web.ports.servicePort }}
-  - http:
-      paths:
-      - path: /static/
         pathType: Prefix
         backend:
           service:
@@ -38,7 +20,7 @@ spec:
   - http:
       paths:
       - path: /shorten
-        pathType: Exact
+        pathType: Prefix
         backend:
           service:
             name: '{{ include "url-shortener.name" . }}-server'
