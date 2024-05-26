@@ -35,7 +35,5 @@ db:
     servicePort: 27017
     containerPort: 27017
 
-alb:
-  arn: <ARN OF YOUR ROLE HERE>
 kubernetesClusterDomain: cluster.local
 
