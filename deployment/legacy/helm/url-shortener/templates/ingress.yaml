@@ -19,6 +19,15 @@ spec:
               number: {{ .Values.web.ports.servicePort }}
   - http:
       paths:
+      - path: /static/
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+  - http:
+      paths:
       - path: /shorten
         pathType: Prefix
         backend:
