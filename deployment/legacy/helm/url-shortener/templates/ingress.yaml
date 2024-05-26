@@ -23,7 +23,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: frontend
+            name: '{{ include "url-shortener.name" . }}-web'
             port:
               number: 80
   - http:
