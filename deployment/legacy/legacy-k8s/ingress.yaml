@@ -9,24 +9,6 @@ spec:
   - http:
       paths:
       - path: /
-        pathType: Exact
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 80
-  - http:
-      paths:
-      - path: /ws
-        pathType: Exact
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 80
-  - http:
-      paths:
-      - path: /static/
         pathType: Prefix
         backend:
           service:
@@ -36,7 +18,7 @@ spec:
   - http:
       paths:
       - path: /shorten
-        pathType: Exact
+        pathType: Prefix
         backend:
           service:
             name: backend
@@ -44,7 +26,7 @@ spec:
               number: 80
   - http:
       paths:
-      - path: /[A-Za-z0-9_-]{6}
+      - path: /[A-Za-z0-9_-]{6}$
         pathType: ImplementationSpecific
         backend:
           service:
