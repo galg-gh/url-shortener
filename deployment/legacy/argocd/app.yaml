@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   source:
-    repoURL: git@github.com:galg-gh/url-shortener.git
+    repoURL: https://github.com/galg-gh/url-shortener.git
     path: ./deployment/legacy/helm/url-shortener/
   destination:
     server: https://kubernetes.default.svc

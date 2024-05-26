@@ -44,7 +44,7 @@ spec:
               number: 80
   - http:
       paths:
-      - path: /??????
+      - path: /[A-Za-z0-9_-]{6}$
         pathType: ImplementationSpecific
         backend:
           service:
