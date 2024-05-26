@@ -20,7 +20,7 @@ spec:
   - http:
       paths:
       - path: /static/
-        pathType: Exact
+        pathType: Prefix
         backend:
           service:
             name: '{{ include "url-shortener.name" . }}-web'
