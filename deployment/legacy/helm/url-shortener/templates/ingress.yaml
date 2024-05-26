@@ -6,7 +6,9 @@ metadata:
   {{- include "url-shortener.labels" . | nindent 4 }}
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
+    
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
