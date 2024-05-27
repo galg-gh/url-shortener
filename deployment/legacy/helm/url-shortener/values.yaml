@@ -21,7 +21,7 @@ server:
     servicePort: 80
     containerPort: 80
   env:
-    dbURL: mongodb://db.default.svc.cluster.local:27017/urlShortener
+    dbURL: mongodb://db.url-app.svc.cluster.local:27017/urlShortener
     serverPort: "80"
     serverURL: "0.0.0.0"
 
