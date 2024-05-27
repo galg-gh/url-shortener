@@ -67,6 +67,7 @@ configure_aws_eks() {
     fi
 }
 
+# Function to install AWS Load Balancer Controller using Helm
 install_aws_load_balancer_controller() {
     echo "Installing AWS Load Balancer Controller using Helm..."
 
