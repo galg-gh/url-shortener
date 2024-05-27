@@ -37,11 +37,15 @@ apply_terraform() {
     echo "Initializing and applying Terraform configuration..."
 
     if command_exists terraform; then
+        cd deployment/eks/terraform || exit 1
         terraform init
         check_success "terraform init"
 
         terraform apply -auto-approve
         check_success "terraform apply"
+
+        # Return to the original directory
+        cd - >/dev/null || exit 1
 
     else
         echo "Terraform is not installed. Please install Terraform and try again."
