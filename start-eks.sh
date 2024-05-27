@@ -118,7 +118,7 @@ install_argocd() {
 apply_argocd_app() {
     echo "Applying ArgoCD application YAML file..."
 
-    kubectl apply -n argocd -f ./deployment/legacy/argocd/app.yaml
+    kubectl apply -n argocd -f ./deployment/eks/argocd/app.yaml
     check_success "kubectl apply ArgoCD app.yaml"
 
     if command_exists argocd; then
