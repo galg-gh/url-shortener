@@ -32,7 +32,7 @@ set_aws_credentials() {
     check_success "AWS credentials validation"
 }
 
-# Function to initialize and apply Terraform configuration
+# Function to initialize and apply Terraform configuration and EKS
 apply_terraform() {
     echo "Initializing and applying Terraform configuration..."
 
@@ -53,7 +53,7 @@ apply_terraform() {
     fi
 }
 
-# Function to configure AWS CLI and create EKS cluster
+# Function to configure AWS CLI and update the local kubeconfig
 configure_aws_eks() {
     echo "Configuring AWS CLI and creating EKS cluster..."
 
