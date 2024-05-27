@@ -1,4 +1,4 @@
-# URL Shortener - DevOps-Driven Project
+# URL Shortener - DevOps-Centric Project
 
 - **App:** React, Flask, MongoDB
 - **CI:** GitHub Actions
