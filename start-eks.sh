@@ -58,7 +58,7 @@ configure_aws_eks() {
     echo "Configuring AWS CLI and creating EKS cluster..."
 
     if command_exists aws; then
-        aws eks update-kubeconfig --name your-cluster-name --region "$AWS_DEFAULT_REGION"
+        aws eks update-kubeconfig --name url-app-cluster --region "$AWS_DEFAULT_REGION"
         check_success "aws eks update-kubeconfig"
 
     else
