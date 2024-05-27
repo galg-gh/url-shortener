@@ -67,6 +67,25 @@ configure_aws_eks() {
     fi
 }
 
+install_aws_load_balancer_controller() {
+    echo "Installing AWS Load Balancer Controller using Helm..."
+
+    if command_exists helm; then
+        helm repo add eks https://aws.github.io/eks-charts
+        helm repo update
+        helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+            -n kube-system \
+            --set clusterName=url-app-cluster \
+            --set serviceAccount.create=false \
+            --set serviceAccount.name=alb-ingress-controller
+        check_success "helm install aws-load-balancer-controller"
+
+    else
+        echo "Helm is not installed. Please install Helm and try again."
+        exit 1
+    fi
+}
+
 # Function to install ArgoCD
 install_argocd() {
     echo "Installing ArgoCD..."
@@ -122,10 +141,11 @@ main() {
     set_aws_credentials
     apply_terraform
     configure_aws_eks
+    install_aws_load_balancer_controller
     install_argocd
     apply_argocd_app
 
-    echo "Run stop-legacy.sh to stop deployment"
+    echo "Run stop-eks.sh to stop deployment"
 }
 
 # Execute the main function
