@@ -57,7 +57,7 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     ami_type                   = "AL2_x86_64"
-    instance_types             = ["t2.small"]
+    instance_types             = ["t2.large"]
     iam_role_attach_cni_policy = true
   }
 
@@ -88,13 +88,6 @@ module "vpc_cni_irsa" {
   }
 }
 
-resource "aws_iam_openid_connect_provider" "eks-cluster-oidc" {
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.eks-cluster-tls-certificate.certificates[0].sha1_fingerprint]
-  url             = module.eks.cluster_oidc_issuer_url
-}
-
-
 resource "aws_iam_policy" "ALBIngressControllerIAMPolicy" {
   name        = "ALBIngressControllerIAMPolicy"
   description = "Policy which will be used by role for service - for creating alb from within cluster by issuing declarative kube commands"
@@ -114,13 +107,13 @@ resource "aws_iam_role" "alb-ingress-controller-role" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "Federated": "${aws_iam_openid_connect_provider.eks-cluster-oidc.arn}"
+        "Federated": "${module.eks.oidc_provider_arn}"
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "${replace(aws_iam_openid_connect_provider.eks-cluster-oidc.url, "https://", "")}:sub": "system:serviceaccount:kube-system:alb-ingress-controller",
-          "${replace(aws_iam_openid_connect_provider.eks-cluster-oidc.url, "https://", "")}:aud": "sts.amazonaws.com"
+          "${replace(module.eks.cluster_oidc_issuer_url, "https://", "")}:sub": "system:serviceaccount:kube-system:alb-ingress-controller",
+          "${replace(module.eks.cluster_oidc_issuer_url, "https://", "")}:aud": "sts.amazonaws.com"
         }
       }
     }
@@ -128,7 +121,7 @@ resource "aws_iam_role" "alb-ingress-controller-role" {
 }
 POLICY
 
-  depends_on = [aws_iam_openid_connect_provider.eks-cluster-oidc]
+  depends_on = [module.eks]
 
   tags = {
     "ServiceAccountName" = "alb-ingress-controller"
