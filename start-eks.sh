@@ -20,12 +20,10 @@ set_aws_credentials() {
     read -p "AWS Secret Access Key: " AWS_SECRET_ACCESS_KEY
     read -p "AWS Region: " AWS_REGION
 
-    AWS_DEFAULT_REGION="$AWS_REGION"
-
     # Verify AWS credentials
     aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
     aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
-    aws configure set default.region "$AWS_DEFAULT_REGION"
+    aws configure set default.region "$AWS_REGION"
 
     # Validate credentials
     aws sts get-caller-identity >/dev/null 2>&1
@@ -44,6 +42,8 @@ apply_terraform() {
         terraform apply -auto-approve
         check_success "terraform apply"
 
+        ROLE_ARN=$(terraform show -json | jq '.values.root_module.resources[] | select(.address == "aws_iam_role.alb-ingress-controller-role") | .values.arn')
+        check_success "Getting ROLE ARN"
         # Return to the original directory
         cd - >/dev/null || exit 1
 
@@ -58,9 +58,8 @@ configure_aws_eks() {
     echo "Configuring AWS CLI and creating EKS cluster..."
 
     if command_exists aws; then
-        aws eks update-kubeconfig --name url-app-cluster --region "$AWS_DEFAULT_REGION"
+        aws eks update-kubeconfig --name url-app-cluster --region "$AWS_REGION"
         check_success "aws eks update-kubeconfig"
-
     else
         echo "AWS CLI is not installed. Please install AWS CLI and try again."
         exit 1
@@ -72,6 +71,10 @@ install_aws_load_balancer_controller() {
     echo "Installing AWS Load Balancer Controller using Helm..."
 
     if command_exists helm; then
+
+        helm template deployment/eks/helm/alb --set alb.arn=$ROLE_ARN | kubectl apply -f -
+        check_success "helm install aws-load-balancer-iamserviceaccount"
+
         helm repo add eks https://aws.github.io/eks-charts
         helm repo update
         helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
@@ -80,6 +83,8 @@ install_aws_load_balancer_controller() {
             --set serviceAccount.create=false \
             --set serviceAccount.name=alb-ingress-controller
         check_success "helm install aws-load-balancer-controller"
+
+        sleep 30
 
     else
         echo "Helm is not installed. Please install Helm and try again."
@@ -101,13 +106,10 @@ install_argocd() {
         kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
         check_success "kubectl patch svc argocd-server LoadBalancer"
 
-        kubectl patch svc argocd-server -n argocd --type='merge' -p '{"spec": {"type": "LoadBalancer", "ports": [{"name": "http", "nodePort": 30114, "port": 8080, "protocol": "TCP" ,"targetPort": 8080}]}}'
-        check_success "kubectl patch svc argocd-server ports"
-
         echo "Waiting for ArgoCD to be ready..."
         kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=300s
         check_success "kubectl wait for ArgoCD readiness"
-
+        ARGOCD_URL=$(kubectl get svc argocd-server -n argocd -o json | jq --raw-output '.status.loadBalancer.ingress[0].hostname')
     else
         echo "kubectl is not installed. Please install kubectl and try again."
         exit 1
@@ -124,13 +126,21 @@ apply_argocd_app() {
     if command_exists argocd; then
         PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
         check_success "kubectl get ArgoCD admin secret"
-
-        argocd login 127.0.0.1:8080 --username admin --password ${PASSWORD} --insecure
+        sleep 30
+        argocd login ${ARGOCD_URL} --username admin --password ${PASSWORD} --insecure
         check_success "argocd login"
         sleep 10 # Give some time for ArgoCD login to establish
+
         argocd app get url-app --refresh
         check_success "argocd app get url-app"
 
+        while [ -z $APP_URL ]; do
+            echo "Waiting for end point..."
+            APP_URL=$(kubectl get ingress -n url-app -o=jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}')
+            [ -z "$APP_URL" ] && sleep 10
+        done
+
+        argocd app set url-app -p web.env.apiURL=http://$APP_URL/shorten
     else
         echo "argocd CLI is not installed. Please install argocd and try again."
         exit 1
@@ -145,8 +155,17 @@ main() {
     install_aws_load_balancer_controller
     install_argocd
     apply_argocd_app
-
+    echo ""
+    echo "ArgoCD URL:" $ARGOCD_URL
+    echo "ArgoCD Password:" $PASSWORD
+    echo ""
+    echo "App URL:" $APP_URL
+    echo ""
+    echo "Enjoy!"
+    echo ""
     echo "Run stop-eks.sh to stop deployment"
+    echo ""
+
 }
 
 # Execute the main function
