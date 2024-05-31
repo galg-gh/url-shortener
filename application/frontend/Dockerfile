@@ -8,4 +8,6 @@ COPY package.json /app/
 
 RUN npm install
 
+ENV HTTPS=true
+
 CMD ["npm", "start"]
