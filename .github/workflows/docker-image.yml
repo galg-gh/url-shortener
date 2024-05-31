@@ -28,11 +28,11 @@ jobs:
       with:
         context: ./application/frontend/.
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_frontend:24.06.01
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_frontend:${{ steps.date.outputs.date }}
 
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
         context: ./application/backend/.
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_backend:24.06.01
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app_backend:${{ steps.date.outputs.date }}
