@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# Main function to orchestrate the script execution
+main() {
+    set_aws_credentials
+    apply_terraform
+    configure_aws_eks
+    install_aws_load_balancer_controller
+    install_argocd
+    apply_argocd_app
+    echo 
+    echo "ArgoCD URL:" $ARGOCD_URL
+    echo "ArgoCD Password:" $PASSWORD
+    echo 
+    echo "App URL:" $APP_URL
+    echo 
+    echo "Enjoy!"
+    echo 
+    echo "Run stop-eks.sh to stop deployment"
+    echo 
+
+}
+
 # Function to check if a command exists
 command_exists() {
     command -v "$1" >/dev/null 2>&1
@@ -145,27 +166,6 @@ apply_argocd_app() {
         echo "argocd CLI is not installed. Please install argocd and try again."
         exit 1
     fi
-}
-
-# Main function to orchestrate the script execution
-main() {
-    set_aws_credentials
-    apply_terraform
-    configure_aws_eks
-    install_aws_load_balancer_controller
-    install_argocd
-    apply_argocd_app
-    echo ""
-    echo "ArgoCD URL:" $ARGOCD_URL
-    echo "ArgoCD Password:" $PASSWORD
-    echo ""
-    echo "App URL:" $APP_URL
-    echo ""
-    echo "Enjoy!"
-    echo ""
-    echo "Run stop-eks.sh to stop deployment"
-    echo ""
-
 }
 
 # Execute the main function
