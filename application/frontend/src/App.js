@@ -120,16 +120,32 @@ const App = () => {
   };
 
   
-  const handleCopy = () => {
-    navigator.clipboard.writeText(shortenedUrl)
-      .then(() => {
-        setCopy("URL copied to clipboard!")
-      })
-      .catch((error) => {
-        setError('Unable to copy to clipboard.');
-        console.error('Unable to copy to clipboard.', error);
-      });
-  };
+  
+  async function handleCopy() {
+    // Navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(shortenedUrl);
+    } else {
+        // Use the 'out of viewport hidden text area' trick
+        const textArea = document.createElement("textarea");
+        textArea.value = shortenedUrl;
+            
+        // Move textarea out of the viewport so it's not visible
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+            
+        document.body.prepend(textArea);
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            textArea.remove();
+        }
+    }
+}
 
   return (
     <Container>
