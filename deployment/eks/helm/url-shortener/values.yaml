@@ -3,7 +3,7 @@ web:
   type: ClusterIP
   image:
     repository: galgg/app_frontend
-    tag: 24.05.01
+    tag: 24.05.31
   ports:
     servicePort: 80
     containerPort: 80
@@ -16,7 +16,7 @@ server:
   type: ClusterIP
   image:
     repository: galgg/app_backend
-    tag: 24.05.01
+    tag: 24.05.31
   ports:
     servicePort: 80
     containerPort: 80
