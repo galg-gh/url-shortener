@@ -125,6 +125,7 @@ const App = () => {
     // Navigator clipboard api needs a secure context (https)
     if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(shortenedUrl);
+        setCopy("URL copied to clipboard!")
     } else {
         // Use the 'out of viewport hidden text area' trick
         const textArea = document.createElement("textarea");
@@ -142,6 +143,7 @@ const App = () => {
         } catch (error) {
             console.error(error);
         } finally {
+            setCopy("URL copied to clipboard!")
             textArea.remove();
         }
     }
