@@ -147,9 +147,14 @@ apply_argocd_app() {
     if command_exists argocd; then
         PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
         check_success "kubectl get ArgoCD admin secret"
-        sleep 30
-        argocd login ${ARGOCD_URL} --username admin --password ${PASSWORD} --insecure
+        sleep 10
+
+        while argocd login ${ARGOCD_URL} --username admin --password ${PASSWORD} --insecure ; [ $? -ne 0 ];do
+            sleep 10
+        done
+        
         check_success "argocd login"
+
         sleep 10 # Give some time for ArgoCD login to establish
 
         argocd app get url-app --refresh
