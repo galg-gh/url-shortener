@@ -42,12 +42,12 @@ This project is a DevOps-centric URL shortener designed to showcase proficiency 
     ./start-legacy.sh
     ```
 
-## Contribution
-Feel free to open issues or submit pull requests for improvements and bug fixes. Contributions are welcome!
-
 ## Architecture Diagram
 ![image](https://github.com/galg-gh/url-shortener/assets/91409344/8368c9eb-33e6-4d1f-9e24-e898e7801381)
 
 <p align="center">
 <img src="https://github.com/galg-gh/url-shortener/assets/91409344/d35923a5-67fe-4af5-9a8f-6cea3f6231a7" />
 </p>
+
+## Contribution
+Feel free to open issues or submit pull requests for improvements and bug fixes. Contributions are welcome!
