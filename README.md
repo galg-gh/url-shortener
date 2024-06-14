@@ -32,9 +32,10 @@ This project is a DevOps-centric URL shortener designed to showcase proficiency 
 ### Deployment using Minikube
 
 1. **Ensure Prerequisites are installed:**
+   - Docker
    - Minikube
    - ArgoCD CLI
-   - kubectl is
+   - kubectl
    - Helm
 
 2. **Run the Deployment Script:**
