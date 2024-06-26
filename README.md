@@ -1,18 +1,18 @@
 # URL Shortener: DevOps-Centric Project
 
 ## Overview
-This project is a DevOps-centric URL shortener designed to showcase proficiency in modern DevOps tools and practices. It leverages GitHub Actions for CI/CD, ArgoCD for GitOps, Kubernetes (K8s) for container orchestration, Helm for application deployment, Terraform for infrastructure as code, and Amazon EKS for managed Kubernetes clusters.
+This project is a DevOps-centric URL shortener designed to showcase proficiency in modern DevOps tools and practices.
 
 ## Features
 - **GitHub Actions:** Automated CI/CD pipelines for building, testing, and deploying the application.
-- **ArgoCD:** GitOps continuous delivery tool to manage Kubernetes resources.
-- **Kubernetes (K8s):** Scalable container orchestration to manage application deployment, scaling, and operations.
-- **Helm:** Helm charts to define, install, and upgrade Kubernetes applications.
-- **Terraform:** Infrastructure as Code (IaC) to provision and manage cloud infrastructure.
-- **Amazon EKS:** Managed Kubernetes service to simplify running Kubernetes on AWS.
-- **Frontend:** React-based user interface.
-- **Backend:** Flask for handling backend logic and API endpoints.
-- **Database:** MongoDB for data storage.
+- **ArgoCD:** GitOps continuous delivery tool to manage the Kubernetes resources.
+- **Kubernetes:** Scalable container orchestration to manage the application deployment, scaling, and operations.
+- **Helm:** Helm charts to define, install, and upgrade the Kubernetes application.
+- **Terraform:** Infrastructure as Code (IaC) to provision and manage the EKS infrastructure.
+- **Shell:** For an easy-to-use, all-in-one deployment script - All you need is an AWS Access key!
+- **React:** For user interface.
+- **Flask:** For handling backend logic and API endpoints.
+- **MongoDB:** For data storage.
 
 ## Usage
 
