@@ -16,7 +16,7 @@ This project is a DevOps-centric URL shortener designed to showcase my proficien
 
 ## Usage
 
-### Deployment using EKS
+### Deploy using EKS
 
 1. **Ensure Prerequisites are installed:**
    - AWS CLI
@@ -29,7 +29,7 @@ This project is a DevOps-centric URL shortener designed to showcase my proficien
    ```sh
    ./start-eks.sh
    
-### Deployment using Minikube
+### Deploy using Minikube
 
 1. **Ensure Prerequisites are installed:**
    - Docker
