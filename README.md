@@ -1,7 +1,7 @@
 # URL Shortener: DevOps-Centric Project
 
 ## Overview
-This project is a DevOps-centric URL shortener designed to showcase my proficiency in modern DevOps tools and practices.
+This project is a DevOps-centric deployment of a URL shortener app, designed to showcase my proficiency in modern DevOps tools and practices.
 
 ## Features
 - **GitHub Actions:** Automated CI/CD pipelines for building, testing, and deploying the application.
