@@ -9,7 +9,7 @@ web:
     containerPort: 80
   env:
     serverPort: "80"
-    apiURL: http://127.0.0.1:80/shorten
+    apiURL: /shorten
 
 server:
   replicas: 1
