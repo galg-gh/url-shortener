@@ -165,8 +165,6 @@ apply_argocd_app() {
             APP_URL=$(kubectl get ingress -n url-app -o=jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}')
             [ -z "$APP_URL" ] && sleep 10
         done
-
-        argocd app set url-app -p web.env.apiURL=http://$APP_URL/shorten
     else
         echo "argocd CLI is not installed. Please install argocd and try again."
         exit 1
