@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: url-app
+  namespace: argocd
+spec:
+  source:
+    repoURL: https://github.com/galg-gh/url-shortener.git
+    path: ./deployment/legacy/helm/url-shortener/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: url-app
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

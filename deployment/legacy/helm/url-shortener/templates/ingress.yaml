@@ -6,32 +6,33 @@ metadata:
   {{- include "url-shortener.labels" . | nindent 4 }}
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
+    
 spec:
   rules:
   - http:
       paths:
-      - backend:
+      - path: /
+        pathType: Prefix
+        backend:
           service:
             name: '{{ include "url-shortener.name" . }}-web'
             port:
               number: {{ .Values.web.ports.servicePort }}
-        path: /
-        pathType: Prefix
   - http:
       paths:
-      - backend:
+      - path: /shorten
+        pathType: Prefix
+        backend:
           service:
             name: '{{ include "url-shortener.name" . }}-server'
             port:
               number: {{ .Values.server.ports.servicePort }}
-        path: /shorten
-        pathType: Prefix
   - http:
       paths:
-      - backend:
-          service:
-            name: '{{ include "url-shortener.name" . }}-server'
-            port:
-              number: {{ .Values.server.ports.servicePort }}
-        path: /[A-Za-z0-9_-]{6}$
+      - path: /[A-Za-z0-9_-]{6}$
         pathType: ImplementationSpecific
+        backend:
+          service:
+            name: '{{ include "url-shortener.name" . }}-server'
+            port:
+              number: {{ .Values.server.ports.servicePort }}

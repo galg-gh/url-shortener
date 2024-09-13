@@ -3,7 +3,7 @@ web:
   type: ClusterIP
   image:
     repository: galgg/app_frontend
-    tag: 24.04.23
+    tag: 24.05.04
   ports:
     servicePort: 80
     containerPort: 80
@@ -16,14 +16,14 @@ server:
   type: ClusterIP
   image:
     repository: galgg/app_backend
-    tag: 24.04.23
+    tag: 24.05.04
   ports:
     servicePort: 80
     containerPort: 80
   env:
-    dbURL: mongodb://db.default.svc.cluster.local:27017/urlShortener
+    dbURL: mongodb://url-shortener-db.url-app.svc.cluster.local:27017/urlShortener
     serverPort: "80"
-    serverURL: "127.0.0.1"
+    serverURL: "0.0.0.0"
 
 db:
   replicas: 1
@@ -34,6 +34,6 @@ db:
   ports:
     servicePort: 27017
     containerPort: 27017
-    
+
 kubernetesClusterDomain: cluster.local
 

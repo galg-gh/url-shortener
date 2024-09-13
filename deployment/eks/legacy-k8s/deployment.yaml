@@ -16,14 +16,14 @@ spec:
     spec:
       containers:
       - name: web
-        image: galgg/app_frontend:24.04.23
+        image: galgg/app_frontend:24.05.04
         ports:
         - containerPort: 80
         env:
         - name: PORT
           value: "80"
         - name: REACT_APP_API_URL
-          value: "http://127.0.0.1:80/shorten"
+          value: "http://127.0.0.1/shorten"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -43,12 +43,12 @@ spec:
     spec:
       containers:
       - name: server
-        image: galgg/app_backend:24.04.23
+        image: galgg/app_backend:24.05.04
         ports:
         - containerPort: 80
         env: 
         - name: SERVER_URL
-          value: "127.0.0.1"
+          value: "0.0.0.0"
         - name: SERVER_PORT
           value: "80"
         - name: MONGODB_URL

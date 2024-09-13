@@ -1,13 +1,10 @@
 import os
 from flask import Flask, request, jsonify, redirect
-from flask_cors import CORS
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from nanoid import generate
-import validators
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
 
 # MongoDB setup
 mongodb_url = os.environ.get('MONGODB_URL')
@@ -50,6 +47,10 @@ def redirect_url(shortened_id):
     else:
         return 'URL not found', 404
 
+# Health Check
+@app.route('/')
+def health_check():
+     return 'Server status code 200', 200
 
 # Start the server
 if __name__ == '__main__':

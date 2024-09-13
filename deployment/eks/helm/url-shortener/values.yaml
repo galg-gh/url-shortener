@@ -1,0 +1,39 @@
+web:
+  replicas: 1
+  type: ClusterIP
+  image:
+    repository: galgg/app_frontend
+    tag: 24.06.02
+  ports:
+    servicePort: 80
+    containerPort: 80
+  env:
+    serverPort: "80"
+    apiURL: /shorten
+
+server:
+  replicas: 1
+  type: ClusterIP
+  image:
+    repository: galgg/app_backend
+    tag: 24.06.02
+  ports:
+    servicePort: 80
+    containerPort: 80
+  env:
+    dbURL: mongodb://url-shortener-db.url-app.svc.cluster.local:27017/urlShortener
+    serverPort: "80"
+    serverURL: "0.0.0.0"
+
+db:
+  replicas: 1
+  type: ClusterIP
+  image:
+    repository: mongo
+    tag: latest
+  ports:
+    servicePort: 27017
+    containerPort: 27017
+
+kubernetesClusterDomain: cluster.local
+
